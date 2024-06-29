@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <th:block th:if="${session.sessionUserInfo != null}">
+            <span th:text="${session.sessionUserInfo.nickname}"></span>님 반갑습니다.
+            <a href="../user/logoutProcess">로그아웃</a>
+        </th:block>
+        <th:block th:unless="${session.sessionUserInfo != null}">
+            비회원으로 접근하셨습니다. 
+            <a href="../user/loginPage">로그인 페이지</a>
+        </th:block>
+
+        <!-- 데이터 출력 예시 -->
+        <table border="1">
+            <tr>
+                <td>글 번호</td>
+                <td>제목</td>
+                <td>작성자</td>
+                <td>조회수</td>
+                <td>작성일</td>
+            </tr>
+
+            <tr th:each="boardData : ${boardDataList}">
+                <td th:text="${boardData.articleDto.id}"></td>
+                <td>
+                    <a th:href="@{./readArticlePage(id=${boardData.articleDto.id})}" th:text="${boardData.articleDto.title}"></a>
+                </td>
+                <td th:text="${boardData.userDto.nickname}"></td>
+                <td th:text="${boardData.articleDto.read_count}"></td>
+                <td th:text="${boardData.articleDto.created_at}"></td>
+            </tr>
+        </table>
+
+        <th:block th:if="${session.sessionUserInfo != null}">
+            <a href="./writeArticlePage">글쓰기</a>
+        </th:block>
+    </body>
+</html>
